@@ -17,9 +17,6 @@ SRE focuses on system reliability with error budgets
 
 DevOps is more of a mindset than just tools
 
-⏱️ Time Spent
-~1 hour
-
 🔗 Useful Resources
 What is DevOps? REALLY understand it | TechWorld with Nana
 
