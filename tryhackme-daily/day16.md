@@ -142,3 +142,9 @@ Secure SSH: disable root login, prefer key-based authentication.
 
 Apply defense-in-depth to minimize exposed attack surfaces.
 
+<img width="1920" height="1080" alt="Screenshot from 2025-08-24 14-49-24" src="https://github.com/user-attachments/assets/a126f853-6a4c-4fe2-9b91-da2c57f8cafc" />
+<img width="1920" height="1080" alt="Screenshot from 2025-08-24 19-50-06" src="https://github.com/user-attachments/assets/d9de469a-f1d6-408e-8422-4e6e96a42700" />
+<img width="1920" height="1080" alt="Screenshot from 2025-08-24 19-50-46" src="https://github.com/user-attachments/assets/e3a174e8-c499-4618-a576-c1fc51d17144" />
+<img width="1920" height="1080" alt="Screenshot from 2025-08-24 21-33-34" src="https://github.com/user-attachments/assets/57e2d3bb-7173-4419-a7bd-9baaef2b7fb1" />
+
+
