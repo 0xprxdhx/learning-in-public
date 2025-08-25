@@ -1,4 +1,4 @@
-### Day 17 – Security Journey
+# Day 17 – Security Journey
 ## 🎯 Platforms
 
 TryHackMe: Blue (EternalBlue exploitation)
@@ -11,8 +11,8 @@ Environment: Xen HVM domU
 
 Command executed: systeminfo
 
-# Key output (from screenshot):
-
+## Key output (from screenshot):
+'''
 Host Name:                 JON-PC
 OS Name:                   Microsoft Windows 7 Professional
 OS Version:                6.1.7601 Service Pack 1 Build 7601
@@ -20,10 +20,10 @@ System Manufacturer:       Xen
 System Model:              HVM domU
 Total Physical Memory:     2,048 MB
 Hotfix(s):                 2 Hotfix(s) Installed.
-
+'''
 ## 💥 Exploitation (EternalBlue – MS17-010)
 
-# Steps:
+### Steps:
 
 Ran EternalBlue exploit with Metasploit
 
@@ -33,7 +33,7 @@ Verified NT AUTHORITY\SYSTEM access
 
 ## 🔧 Post-Exploitation
 
-# Commands executed to gather system info:
+### Commands executed to gather system info:
 
 whoami
 ipconfig
@@ -41,7 +41,7 @@ net user
 
 ## 🖥️ Wargames (OverTheWire – Bandit 15 → 28)
 
-# Challenge: auto-logout when connecting to level 19.
+### Challenge: auto-logout when connecting to level 19.
 
 Normal login attempt: ssh bandit__@bandit.labs.overthewire.org -p 2220
 
