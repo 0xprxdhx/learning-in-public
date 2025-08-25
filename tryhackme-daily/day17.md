@@ -12,7 +12,8 @@ Environment: Xen HVM domU
 Command executed: systeminfo
 
 ## Key output (from screenshot):
-'''Host Name:                 JON-PC
+'''bash
+Host Name:                 JON-PC
 OS Name:                   Microsoft Windows 7 Professional
 OS Version:                6.1.7601 Service Pack 1 Build 7601
 System Manufacturer:       Xen
