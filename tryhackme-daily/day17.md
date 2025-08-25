@@ -20,7 +20,7 @@ System Manufacturer:       Xen
 System Model:              HVM domU
 Total Physical Memory:     2,048 MB
 Hotfix(s):                 2 Hotfix(s) Installed.
-
+```
 ## 💥 Exploitation (EternalBlue – MS17-010)
 
 ### Steps:
