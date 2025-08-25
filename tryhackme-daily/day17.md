@@ -12,7 +12,7 @@ Environment: Xen HVM domU
 Command executed: systeminfo
 
 ## Key output (from screenshot):
-'''bash
+```bash
 Host Name:                 JON-PC
 OS Name:                   Microsoft Windows 7 Professional
 OS Version:                6.1.7601 Service Pack 1 Build 7601
@@ -20,7 +20,7 @@ System Manufacturer:       Xen
 System Model:              HVM domU
 Total Physical Memory:     2,048 MB
 Hotfix(s):                 2 Hotfix(s) Installed.
-'''
+
 ## 💥 Exploitation (EternalBlue – MS17-010)
 
 ### Steps:
