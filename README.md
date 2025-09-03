@@ -1,8 +1,8 @@
 # 🚀 Learning in Public
 
-Daily learning logs documenting my journey in **Cybersecurity, DevOps, and Cloud** — with a growing focus on **penetration testing and offensive security**.  
+Daily learning logs documenting my journey in **Cybersecurity** — with a strong focus on **penetration testing and offensive security**.  
 
-I’m sharing my progress openly so others can learn alongside me, and so I stay accountable on my path to becoming a skilled security practitioner.  
+I share my progress openly so others can learn alongside me, while sharpening my skills to think like an attacker and defend against real-world threats.  
 
 ---
 
@@ -12,19 +12,19 @@ I’m sharing my progress openly so others can learn alongside me, and so I stay
 
 ---
 
-## 🎯 Focus Areas
+## 🔐 Focus Areas
 - Penetration Testing & Ethical Hacking  
 - Web & Network Security  
-- Vulnerability Assessment & Exploitation Techniques  
-- DevOps & Cloud Security  
+- Exploitation Techniques  
+- Vulnerability Assessment  
+- Capture the Flag (CTF) Challenges  
 
 ---
 
-## 🛠️ Currently Building Skills In
+## 🛠️ Building Skills In
 - **Tools:** Kali Linux, Burp Suite, Wireshark, Nmap, Metasploit  
-- **Practices:** Threat Modeling, Red Teaming, CTF Challenges  
+- **Practices:** Threat Modeling, Red Teaming, Malware Analysis Basics  
 
 ---
 
 ✨ Always learning, always sharing.  
-
