@@ -1,4 +1,4 @@
-```
+
 🚀 **Day 29 – Security Journey**
 
 Today’s focus was on **Web Exploitation** and **Network Attacks** through **TryHackMe** and **Hack The Box**.
@@ -29,7 +29,7 @@ Common injection points:
 - Comment sections  
 - URL parameters (`?q=<script>alert(1)</script>`)  
 
-Test Payloads:  
+Test Payloads:
 ```
 <script>alert('XSS')</script>  
 <img src=x onerror=alert('XSS')>  
@@ -41,7 +41,6 @@ Test Payloads:
 - [PortSwigger XSS Labs]()  
 - [TryHackMe – Intro to XSS]()
 
----
 
 #### 🔹 2. Server-Side Request Forgery (SSRF)  
 **📖 Theory**  
@@ -109,4 +108,3 @@ Once cracked, reuse credentials with `smbclient`, `psexec.py`, or RDP depending 
 
 ### 📌 Reflection  
 Day 29 taught me how *client-side* (XSS), *server-side* (SSRF), and *network-layer* (Responder) vulnerabilities all connect in the attack chain. Each layer of an application needs to be secured because attackers look for the weakest link.
-```
