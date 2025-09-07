@@ -1,5 +1,5 @@
 
-🚀 **Day 29 – Security Journey**
+# 🚀**Day 29 – Security Journey**
 
 Today’s focus was on **Web Exploitation** and **Network Attacks** through **TryHackMe** and **Hack The Box**.
 
