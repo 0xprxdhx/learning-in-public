@@ -1,7 +1,4 @@
 
-
----
-
 ````markdown
 # ⚡ Race Conditions in Cybersecurity
 
@@ -142,5 +139,3 @@ curl -X POST "https://shop.com/redeem?coupon=DISCOUNT50" &
 
 ---
 
-Do you want me to also add a **step-by-step lab guide** (with commands + tools) so you can **practice exploiting and fixing** race conditions?
-```
