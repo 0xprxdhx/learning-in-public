@@ -1,5 +1,4 @@
 
-````markdown
 # ⚡ Race Conditions in Cybersecurity
 
 Race conditions are a common software vulnerability where the **system's behavior depends on the sequence or timing of uncontrollable events**. Attackers exploit them to manipulate execution order, bypass security checks, or gain unauthorized access.
