@@ -134,7 +134,4 @@ curl -X POST "https://shop.com/redeem?coupon=DISCOUNT50" &
 
 ✨ Stay safe, code securely, and always test for concurrency issues!
 
-```
-
----
 
