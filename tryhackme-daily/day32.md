@@ -116,24 +116,6 @@ Burp Suite is divided into **tabs**:
 ### 🔹 Comparer
 - Highlight differences between two responses
 
----
-
-## 🔄 Burp Workflow (Step-by-Step)
-```mermaid
-flowchart LR
-A[Configure Browser] --> B[Add Target Scope]
-B --> C[Intercept Requests (Proxy)]
-C --> D{Forward or Edit?}
-D -->|Edit| E[Send to Repeater]
-D -->|Automate| F[Send to Intruder]
-E --> G[Analyze Response]
-F --> G
-G --> H[Find Vulnerabilities]
-H --> I[Document & Report]
-````
-
----
-
 ## ⌨️ Important Commands & Shortcuts
 
 | Action                | Shortcut           |
