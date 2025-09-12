@@ -395,17 +395,6 @@ nmap -sU -p 53,67,69,123,161 -sV --version-intensity 0 -T2 --max-retries 1 -oA s
 nmap -sI 192.168.1.10:80 -p 1-1024 -oA scans/target_idle 10.0.0.5
 ```
 
----
-
-# Make it Aesthetic — README Tips for GitHub
-
-* Use a `scans/` directory to store outputs and tag them by date.
-* Add a `badges` section at top (e.g., GitHub actions, license).
-* Use fenced code blocks and Mermaid diagrams (GitHub supports mermaid).
-* Organize examples by `beginner`, `intermediate`, `advanced`.
-
----
-
 # Final Notes (Short Checklist)
 
 * [ ] Always get written permission.
