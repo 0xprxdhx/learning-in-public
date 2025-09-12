@@ -280,20 +280,6 @@ sequenceDiagram
         Note right of Attacker: Port marked FILTERED
     end
 ```
-
-### Port state decision flowchart
-
-```mermaid
-flowchart TD
-    A[Probe sent] --> B{Response?}
-    B -->|SYN-ACK| C[Open]
-    B -->|RST| D[Closed]
-    B -->|ICMP unreachable or no response| E[Filtered]
-    C --> F[Log -> Further enumerate (sV, NSE scripts)]
-    D --> G[Log -> Move on]
-    E --> H[Attempt alternate scan/timing/fragmentation]
-```
-
 ### How Null/FIN/Xmas mapping differs (simplified)
 
 ```mermaid
