@@ -227,17 +227,4 @@ nmap -sI <zombie_ip>:<probe_port> -p 1-1024 -oA scans/idle <target>
 
 ***
 
-Happy scanning, learning, and defending!  
-Paste, fork, and contribute your tweaks to help the next security learner.
-
 ***
-
-[1](https://www.youtube.com/watch?v=Lc5-bMHsSr8)
-[2](https://www.youtube.com/watch?v=WV9_6W3Ynew)
-[3](https://cipherssecurity.com/tryhackme-walkthrough-nmap-post-port-scans/)
-[4](https://www.youtube.com/watch?v=ljZePLdJDmg)
-[5](https://tryhackme.com/module/nmap)
-[6](https://letslearnabout.net/hacking/from-zero-to-hero/day-045-nmap-post-port-scans/)
-[7](https://tryhackme.com/p/Ke1)
-[8](https://www.hack-your-life.org/try-hack-me/nmap/nmap-post-port-scan)
-[9](https://www.stationx.net/nmap-cheat-sheet/)
