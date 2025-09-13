@@ -122,21 +122,6 @@ nmap -oA scans/<basename> <full-command>
 # Produces .nmap (text), .xml, .gnmap (grep) in /scans/
 ```
 
-***
-
-# Recommended Workflow Charts
-
-## Mermaid: Scan Progression Flow
-
-```mermaid
-flowchart TD
-    A[Port Discovery] --> B[Service Detection (-sV)]
-    B --> C[OS Detection (-O)]
-    C --> D[NSE Scripts (--script)]
-    D --> E[Traceroute (--traceroute)]
-    E --> F[Save Results (-oA)]
-```
-
 ## Sequence: SYN Scan Handshake
 
 ```mermaid
@@ -234,11 +219,11 @@ nmap -sI <zombie_ip>:<probe_port> -p 1-1024 -oA scans/idle <target>
 ***
 
 ## Final Checklist
-* [ ] Always confirm permission.
-* [ ] Save outputs (`-oA`) for logging and evidence.
-* [ ] Use multiple scan types to cross-verify results.
-* [ ] Analyze ambiguous findings with detailed traces.
-* [ ] Use packet capture tools (tcpdump/Wireshark) as needed.
+*  Always confirm permission.
+*  Save outputs (`-oA`) for logging and evidence.
+*  Use multiple scan types to cross-verify results.
+*  Analyze ambiguous findings with detailed traces.
+*  Use packet capture tools (tcpdump/Wireshark) as needed.
 
 ***
 
