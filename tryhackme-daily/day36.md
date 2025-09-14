@@ -17,7 +17,6 @@
 6. [Step 4 — Password attack with Hydra](#step-4---password-attack-with-hydra)
 7. [Step 5 — Final checks & answers](#step-5---final-checks--answers)
 8. [Learning notes & tips](#learning-notes--tips)
-9. [Further reading & resources](#further-reading--resources)
 
 ---
 
