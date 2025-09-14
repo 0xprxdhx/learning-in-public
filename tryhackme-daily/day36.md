@@ -180,10 +180,3 @@ After the steps above you will have what you need to answer the room questions:
 * DEV Community (security posts): https://dev.to/t/security
 
 ---
-
-## Final notes
-
-This write-up is prescriptive: follow the steps in order, replace `<TARGET_IP>` with the machine IP from the TryHackMe room, and capture outputs for each step as evidence. If you want, I can:
-* Condense this into a one-page cheat-sheet,
-* Turn it into a short LinkedIn thread, or
-* Add screenshots and example command outputs to make it more tutorial-esque.
