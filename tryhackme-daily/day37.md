@@ -1,4 +1,3 @@
-```markdown
 # 🔐 **Vulnerabilities 101** 
 
 > A clean, structured, and practical guide to understanding and working with **vulnerabilities** in penetration testing.  
