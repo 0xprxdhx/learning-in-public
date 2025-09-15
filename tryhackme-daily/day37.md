@@ -169,4 +169,3 @@ msfconsole
 
 ✨ *“Exploitation is the art of turning vulnerabilities into opportunities.”*
 
-```
