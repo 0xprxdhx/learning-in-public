@@ -16,10 +16,6 @@ During a penetration test, it's common to start with limited access as an unpriv
 
 Privilege escalation techniques help you break these limitations and gain administrative control.
 
-If you want to brush up on basics first, check out these recommended modules:  
-- **Windows Fundamentals Module**  
-- **Hacking Windows Module**
-
 ***
 
 ## Core Windows Privilege Escalation Techniques
